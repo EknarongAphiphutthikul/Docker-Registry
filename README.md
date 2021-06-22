@@ -95,6 +95,9 @@
   ```sh
   docker --version
   ```
+----
+
+<br/>
   
 ## Install Docker-Registry
 - Pull Image
@@ -110,12 +113,18 @@
   ```console
   ca-chain.cert.pem  registry.cert.pem  registry.key.pem
   ```
-  merge file crt and change file name  
+  decrypt file registry.key.pem :
+  ```sh
+  openssl rsa -in registry.key.pem -out registry.ake.com.key -passin pass:changeit
+  ```
+
+  merge file crt :
   ```sh
   cat registry.cert.pem ca-chain.cert.pem > registry.ake.com.crt
-
-  mv registry.key.pem registry.ake.com.key
-  rm registry.cert.pem ca-chain.cert.pem
+  ```
+  delete file : 
+  ```sh
+  rm registry.key.pem registry.cert.pem ca-chain.cert.pem
 
   ls /home/akeadm/certs/
   ```
@@ -148,5 +157,12 @@
   sudo docker ps
   ```
   ```console
+  CONTAINER ID   IMAGE            COMMAND                  CREATED              STATUS              PORTS                                             NAMES
+  2706265cf301   registry:2.7.1   "/entrypoint.sh /etc…"   About a minute ago   Up About a minute   0.0.0.0:443->443/tcp, :::443->443/tcp, 5000/tcp   registry
+
   ```
-  
+----
+
+<br/>
+
+## Test Docker-Registry
