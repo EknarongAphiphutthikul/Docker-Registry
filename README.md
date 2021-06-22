@@ -69,4 +69,84 @@
 
 <br/>
 
+## Install Docker
+
+- Install the required dependencies
+  ```sh
+  sudo apt-get install apt-transport-https ca-certificates curl software-properties-common curl -y
+  ```
+- Import the Docker GPG key
+  ```sh
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  ```
+- Add the Docker CE official repository to the APT source file
+  ```sh
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  ```
+- Update the repository cache
+  ```sh
+  sudo apt-get update -y
+  ```
+- Install
+  ```sh
+  sudo apt-get install docker-ce -y
+  ```
+- Verify the installed version of Docker CE
+  ```sh
+  docker --version
+  ```
+  
 ## Install Docker-Registry
+- Pull Image
+  ```sh
+  sudo docker pull registry:2.7.1
+  ```
+- Create certificates  
+  [How to create certificates](https://github.com/EknarongAphiphutthikul/OpenSSL-Certificate-Authority)  
+  copy registry.key.pem, registry.cert.pem and ca-chain.cert.pem to /home/akeadm/certs/
+  ```sh
+  ls /home/akeadm/certs/
+  ```
+  ```console
+  ca-chain.cert.pem  registry.cert.pem  registry.key.pem
+  ```
+  merge file crt and change file name  
+  ```sh
+  cat registry.cert.pem ca-chain.cert.pem > registry.ake.com.crt
+
+  mv registry.key.pem registry.ake.com.key
+  rm registry.cert.pem ca-chain.cert.pem
+
+  ls /home/akeadm/certs/
+  ```
+  ```console
+  registry.ake.com.crt  registry.ake.com.key
+  ```
+- Create Native basic auth
+  ```sh
+  mkdir /home/akeadm/auth
+
+  sudo docker run --entrypoint htpasswd httpd:2 -Bbn registryusr registrypw@ > /home/akeadm/auth/htpasswd
+  ```
+- Start Docker Registry
+  ```sh
+  mkdir -p /home/akeadm/registry/data
+
+  sudo docker run -d --restart=always --name registry \
+  -v /home/ake/registry/data:/var/lib/registry \
+  -v /home/akeadm/certs:/certs \
+  -v /home/akeadm/auth:/auth \
+  -e "REGISTRY_AUTH=htpasswd" \
+  -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+  -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+  -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.ake.com.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/registry.ake.com.key \
+  -p 443:443 \
+  registry:2.7.1
+
+  sudo docker ps
+  ```
+  ```console
+  ```
+  
