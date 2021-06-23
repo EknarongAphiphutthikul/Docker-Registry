@@ -166,3 +166,4 @@
 <br/>
 
 ## Test Docker-Registry
+You can follow how to connect to private docker registry : https://github.com/EknarongAphiphutthikul/Docker
