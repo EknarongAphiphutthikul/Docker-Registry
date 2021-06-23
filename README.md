@@ -95,6 +95,15 @@
   ```sh
   docker --version
   ```
+- Manage Docker as a non-root user   
+  https://docs.docker.com/engine/install/linux-postinstall/
+  ```sh
+  sudo groupadd docker
+
+  sudo usermod -aG docker $USER
+
+  newgrp docker
+  ```
 ----
 
 <br/>
