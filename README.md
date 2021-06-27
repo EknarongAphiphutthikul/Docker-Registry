@@ -1,8 +1,8 @@
 # Docker-Registry
 
 ## Prepare System
-- Multiple VM Ubuntu version 20.04 on Hyper-V   [set up hyper-v on windows10](https://github.com/EknarongAphiphutthikul/Hyper-V)
-- DNS Server  [set up](https://github.com/EknarongAphiphutthikul/Dns-bind9)
+- Multiple VM Ubuntu version 20.04 on Hyper-V   [set up hyper-v on windows10](https://github.com/EknarongAphiphutthikul/Install-Hyper-V)
+- DNS Server  [set up](https://github.com/EknarongAphiphutthikul/Install-Dns-bind9)
 - Update Package On Ubuntu 20.04
   ```sh
   sudo apt-get update
@@ -175,4 +175,4 @@
 <br/>
 
 ## Test Docker-Registry
-You can follow how to connect to private docker registry : https://github.com/EknarongAphiphutthikul/Docker
+You can follow how to connect to private docker registry : https://github.com/EknarongAphiphutthikul/Install-Docker
